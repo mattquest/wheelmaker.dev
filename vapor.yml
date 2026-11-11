@@ -5,6 +5,7 @@ environments:
     memory: 1024
     storage: mattrademacher
     domain: wheelmaker.dev
+    runtime: php-8.3
     cli-memory: 512
     build:
       - "composer install --no-dev --classmap-authoritative"
@@ -16,6 +17,7 @@ environments:
     memory: 1024
     storage: mattrademacher
     domain: staging.wheelmaker.dev
+    runtime: php-8.3
     cli-memory: 512
     build:
       - "composer install --no-dev --classmap-authoritative"

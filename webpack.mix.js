@@ -11,7 +11,7 @@ const mix = require("laravel-mix")
  |
  */
 
-mix.js("resources/js/app.js", "public/js").sass("resources/sass/app.scss", "public/css")
+mix.js("resources/js/app.js", "public/js").vue().sass("resources/sass/app.scss", "public/css")
 
 // Get the APP_URL from .env and remove protocol
 let url = process.env.APP_URL.replace(/(^\w+:|^)\/\//, "")
