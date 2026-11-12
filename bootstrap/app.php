@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         // Caddy terminates TLS and proxies via php-fpm: trust the
         // proxy headers so request()->ip() sees the real client.
         $middleware->trustProxies(at: '*');
+        // Our CSRF middleware skips the XSRF-TOKEN cookie: the forms read
+        // the token from the meta tag, so the cookie only broadcasts the
+        // framework.
+        $middleware->web(replace: [
+            \Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class => \App\Http\Middleware\VerifyCsrfToken::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

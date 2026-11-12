@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="noindex">
-    <meta name="description" content="Matt Rademacher — software engineer in Austin, Texas. AI product engineering at Meta, and small things on the side.">
-    <title>Matt Rademacher — Austin, Texas</title>
+    <meta name="description" content="Matt Rademacher — software engineer working on AI product engineering at Meta.">
+    <title>Matt Rademacher — Software Engineer</title>
     <link rel="icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,8 +36,8 @@
 
     <footer class="site-footer">
         <div class="wrap footer-inner">
-            <p>© {{ date('Y') }} Matt Rademacher · Austin, Texas · Wheelmaker, LLC</p>
-            <p class="footer-note">Built with Laravel. No trackers, no cookies for ads, nothing to accept.</p>
+            <p>© {{ date('Y') }} Matt Rademacher · Wheelmaker, LLC</p>
+            <p class="footer-note">No trackers, no cookies for ads, nothing to accept.</p>
         </div>
     </footer>
 

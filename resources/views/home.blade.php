@@ -3,9 +3,9 @@
 @section('content')
 <section class="hero">
     <div class="wrap">
-        <p class="kicker">Matt Rademacher · Austin, Texas</p>
-        <h1>I build software, and I&nbsp;ship&nbsp;it.</h1>
-        <p class="lede">Software engineer at Meta, working on AI product engineering. Outside of work I build small products, run a family construction company, and lift weights in my garage.</p>
+        <p class="kicker">Software Engineer</p>
+        <h1>I build AI products at Meta.</h1>
+        <p class="lede">Software engineer focused on AI product engineering — building products end to end, from the interface to the infrastructure.</p>
         <div class="hero-links">
             <a class="text-link" href="https://github.com/mattquest" target="_blank" rel="noopener">GitHub ↗</a>
             <a class="text-link" href="https://stackoverflow.com/users/2227763/wheelmaker" target="_blank" rel="noopener">Stack Overflow ↗</a>
@@ -28,9 +28,9 @@
             <article class="now-item">
                 <div>
                     <h3>Meta — AI product engineering</h3>
-                    <p>The day job. Building AI products, working toward leading the work.</p>
+                    <p>Building the products, and the systems behind them.</p>
                 </div>
-                <span class="tag">Day job</span>
+                <span class="tag">Current role</span>
             </article>
             <article class="now-item">
                 <div>
@@ -42,9 +42,9 @@
             <article class="now-item">
                 <div>
                     <h3>ROENWOOD</h3>
-                    <p>A family construction company — commercial and residential work across Central Texas.</p>
+                    <p>General contracting — commercial and residential construction.</p>
                 </div>
-                <span class="tag">Family business</span>
+                <span class="tag">Est. 2026</span>
             </article>
         </div>
     </div>
@@ -65,7 +65,7 @@
             </article>
             <article class="work-item">
                 <h3><a href="https://www.roenwood.com" target="_blank" rel="noopener">ROENWOOD ↗</a></h3>
-                <p>LeCrockemacher, LLC — our family general contracting company.</p>
+                <p>LeCrockemacher, LLC — general contracting.</p>
             </article>
             <article class="work-item">
                 <h3><a href="https://github.com/mattquest" target="_blank" rel="noopener">GitHub ↗</a></h3>
@@ -79,8 +79,8 @@
 <section class="section" id="about">
     <div class="wrap narrow">
         <h2 class="section-head"><span class="section-num">03</span> About</h2>
-        <p>I'm a software engineer in Austin, Texas, and a dad of three. Most of my career has been building web products end to end — the interface, the API, the infrastructure, all of it. These days that work is AI product engineering at Meta.</p>
-        <p>On the side I run a couple of small ventures with family, build a fitness app, and train in my garage. I like things that are well made and plainly stated — this page included.</p>
+        <p>Most of my career has been building web products end to end — the interface, the API, the infrastructure, all of it. These days that work is AI product engineering at Meta.</p>
+        <p>On the side I build products and run ventures with the same standard: well made, plainly stated. This page included.</p>
     </div>
 </section>
 
@@ -103,7 +103,7 @@
                 <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="100">
             </div>
             <div class="field">
-                <label for="cf-message">What's up?</label>
+                <label for="cf-message">Message</label>
                 <textarea id="cf-message" name="message" rows="5" required maxlength="5000"></textarea>
             </div>
             <div class="field honeypot" aria-hidden="true">
