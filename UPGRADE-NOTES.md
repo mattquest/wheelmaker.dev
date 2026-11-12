@@ -7,8 +7,16 @@
   Nov 11 ~19:50 CT from the old CloudFront/Vapor aliases. Let's Encrypt cert
   auto-provisioned by Caddy. www 301s to the apex.
 - **Vapor is dead:** Matt said Nov 11 he no longer has Vapor. The vapor.yml,
-  laravel/vapor-core and flysystem-s3 are removed; the old Vapor stack (and
-  staging.wheelmaker.dev, still aliased to CloudFront) is untouched.
+  laravel/vapor-core and flysystem-s3 are removed. Staging moved to Hetzner
+  the same evening (separate copy at /srv/wheelmaker-staging, own .env and
+  Caddy vhost, DNS A → 46.225.138.74). Nothing left on CloudFront/Vapor.
+- **De-personalized Nov 11 (evening, 1c6218e):** Matt's call — no location
+  anywhere, no family/personal details, no framework branding. Footer no
+  longer says "Built with Laravel"; the XSRF-TOKEN cookie is suppressed
+  (custom VerifyCsrfToken middleware, `$addHttpCookie = false` — forms read
+  the token from the meta tag); session cookie is `wheelmaker-session`
+  (APP_NAME=wheelmaker). Custom 404 in the site design. Hero is now
+  "I build AI products at Meta."
 - **Redesign (same branch):** the Vue 2/Vuetify SPA, laravel-mix, webpack and
   package.json are gone. The site is one Blade layout + home view, hand-written
   CSS (`public/css/site.css`), vanilla JS (`public/js/site.js`) — paper +
@@ -32,7 +40,12 @@
   decision), merged to main Nov 11. Box clone tracks main; deploy = pull +
   `composer install --no-dev` + `config:cache` + `route:cache` + `view:cache`
   + reload php-fpm if needed. `.env` on the box only (600, root-owned);
-  APP_KEY generated fresh for production Nov 11.
+  APP_KEY generated fresh for production Nov 11. NOTE: the /srv/wheelmaker
+  clone was single-branch (refspec only upgrade/laravel-12), so plain
+  `git pull` silently never updated master — fixed Nov 11 by setting the
+  refspec to `+refs/heads/*:refs/remotes/origin/*` and tracking
+  origin/master. If a deploy ever says "Already up to date" at an old
+  commit, check the refspec first.
 - **Gotchas found live:** (1) Laravel 11+ mail scheme must be `smtp`/`smtps`
   — `tls` throws UnsupportedSchemeException. (2) SES SMTP password VERSION
   is 0x04 now, not 0x02. (3) An SES send policy scoped to the domain identity
@@ -62,9 +75,9 @@
   (endpoint removed).
 
 ## Open items for Matt
-- Current résumé PDF (the live one says Gartner, Feb 2020–Present).
+- Current résumé PDF (the live one says Gartner, Feb 2020–Present — and it
+  still lists Laravel as a skill, so the new one is also the moment that
+  signal goes away).
 - reCAPTCHA v3 secret (optional — the form works without it via honeypot +
   throttle; adding the secret turns the Google check on).
 - Whether the site should stay `noindex` or be indexed.
-- staging.wheelmaker.dev still points at the old Vapor/CloudFront stack
-  (Laravel 6, vulnerable) — delete the DNS record or leave it.
