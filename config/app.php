@@ -108,9 +108,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Google reCAPTCHA secret (contact form + resume download)
+    | Google reCAPTCHA (contact form + resume download)
     |--------------------------------------------------------------------------
+    |
+    | The site key is public by design; the secret stays in .env and is
+    | never committed. When no secret is set, the server skips the
+    | Google check and relies on the honeypot field + rate limiting.
     */
 
     'recaptcha_secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+
+    'recaptcha_site_key' => env('RECAPTCHA_SITE_KEY', '6Le-PbkUAAAAALW0d-FK732SvEpsKxrOT75lLZK'),
 ];

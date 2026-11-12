@@ -2,36 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
+use App\Services\Recaptcha;
+use Illuminate\Http\Request;
 
 class DownloadController extends Controller
 {
-    public function resume()
+    public function resume(Request $request, Recaptcha $recaptcha)
     {
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
-
-        $recaptcha = file_get_contents($url.
-            '?secret='.config('app.recaptcha_secret').
-            '&response='.request('token').
-            '&remoteip'.request()->ip()
-        );
-        $recaptcha = json_decode($recaptcha);
-
-        if ($recaptcha->success === true && $recaptcha->score > .3) {
-
-            return response()->redirectTo(asset('MattRademacher.pdf'));
-
-            //@todo: code below not working, submitted question through vapor site
-
-//            $headers = [
-//                'Content-Type' => 'application/pdf'
-//            ];
-//            return response()->streamDownload( function() {
-//                echo Storage::disk('s3')->get('Matt_Rademacher3.pdf');
-//            }, 'MattRademacher.pdf', $headers);
-
-        } else {
-            return 'you seem to have hit an expired link!  please go back and try again.';
+        if (! $recaptcha->passes($request->input('token'), $request->ip())) {
+            return redirect('/')
+                ->with('resume_error', 'The bot check did not pass — please try the download again.');
         }
+
+        return redirect(asset('MattRademacher.pdf'));
     }
 }

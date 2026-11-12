@@ -2,43 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
+use App\Services\Recaptcha;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
-    public function post()
+    public function post(Request $request, Recaptcha $recaptcha)
     {
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:150'],
+            'company' => ['nullable', 'string', 'max:100'],
+            'message' => ['required', 'string', 'max:5000'],
+            // Honeypot: validated leniently on purpose — a filled value
+            // is answered with a fake success below, not a 422, so bots
+            // can't tell the field is a trap.
+            'website' => ['nullable', 'string', 'max:255'],
+        ]);
 
-        $recaptcha = file_get_contents($url .
-            '?secret=' .config('app.recaptcha_secret') .
-            '&response=' . request('token') .
-            '&remoteip' . request()->ip()
-        );
-        $recaptcha = json_decode($recaptcha);
-
-
-
-        if ($recaptcha->success === true) {
-            if ($recaptcha->score > .3) {
-                $body =
-                'from: '. request('name') . "\n" .
-                'email: '. request('email') . "\n" .
-                'company: '. request('company') . "\n" .
-                'message: '. request('textarea');
-               Mail::raw($body, function($message) {
-                   $message
-                       ->subject('personal site inquiry')
-                       ->to('matt.t.rademacher@gmail.com')
-                       ->from('noreply@wheelmaker.dev');
-               });
-               return 'success';
-            } else {
-                return 'fail with score '.$recaptcha->score;
-            }
+        // Honeypot filled: pretend it worked, send nothing.
+        if ($request->filled('website')) {
+            return response()->json(['status' => 'ok']);
         }
-        var_dump($recaptcha);
+
+        if (! $recaptcha->passes($request->input('token'), $request->ip())) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The bot check did not pass. Please try again.',
+            ], 422);
+        }
+
+        $body = 'from: '.$validated['name']."\n"
+            .'email: '.$validated['email']."\n"
+            .'company: '.($validated['company'] ?? '')."\n"
+            .'message: '.$validated['message'];
+
+        Mail::raw($body, function ($message) {
+            $message
+                ->subject('personal site inquiry')
+                ->to('matt.t.rademacher@gmail.com')
+                ->from('noreply@wheelmaker.dev');
+        });
+
+        return response()->json(['status' => 'ok']);
     }
 }
